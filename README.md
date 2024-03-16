@@ -1,4 +1,4 @@
-# healthontology.github.io
+### healthontology.github.io
 
-Welcome to HERO - home of the Healhcare Ontology
+# Welcome to HERO - home of the Healhcare Ontology
 
