@@ -1,0 +1,843 @@
+@prefix hero: <http://hero.ontology.health/> .
+@prefix vocab: <http://vocabulary.ontology.health/> .
+@prefix loinc: <http://loinc.org/> .
+@prefix snomed: <http://snomed.info/id/> .
+@prefix oehr: <http://openehr.org/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+
+
+<http://hero.ontology.health/> rdf:type owl:Ontology ;
+                                rdfs:label "HERO" ;
+                                rdfs:comment "Heathcare Everwhere Resource Ontology" ;
+                                owl:versionInfo "0.1" ;
+                                dct:date "2024-03-19" ;
+                                rdfs:isDefinedBy <http://hero.ontology.health/> .
+##### VOCABS
+
+hero:Vocabulary rdf:type owl:Class ;
+               rdfs:label "Clincial Vocabulary" .
+
+vocab:AdverseReactionVerification rdf:type owl:Class ;
+       rdfs:subClassOf hero:Vocabulary.
+
+vocab:AdverseReactionStatus rdf:type owl:Class ;
+       rdfs:subClassOf hero:Vocabulary.
+  
+vocab:DiagnosisStatus rdf:type owl:Class ;
+       rdfs:subClassOf hero:Vocabulary.
+
+vocab:SmokingStatus rdf:type owl:Class ;
+       rdfs:subClassOf hero:Vocabulary.
+
+vocab:SmokingVariety rdf:type owl:Class ;
+       rdfs:subClassOf hero:Vocabulary.
+
+
+### COMMON  
+
+hero:ClinicalInteraction rdf:type owl:Class ;
+               rdfs:label "Clincial Interaction" ;
+               rdfs:comment "The parent to all clinical interaction" .
+
+hero:ClinicalArtefact rdf:type owl:Class ;
+               rdfs:label "Clincial Artefact" ;
+               rdfs:comment "Supporting clinical artefacts" .
+
+####### ADVERSE REACTION
+
+hero:AdverseReaction rdf:type owl:Class ;
+               rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Adverse Reaction" ;
+               rdfs:comment "A summary or overview of a clinical assessment that identifies the potential for a harmful or undesirable physiological reaction unique to an individual and associated with exposure to a specific substance" .
+
+hero:Substance rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Substance" ;
+               rdfs:comment "Substance TYPE defined by CLINICAL TERMINOLOGY" .
+
+hero:hasAdverseReactionSubstance rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Adverse Reaction Substance" ;
+                    rdfs:comment "Identification of a specific substance, compounded product, combinaWon therapy product, or class of substances that is considered to have a causal link to the adverse reaction" ;
+                    rdfs:domain hero:AdverseReaction ;
+                    rdfs:range hero:Substance .
+
+hero:hasAdverseReactionStatus rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Adverse Reaction Status" ;
+                    rdfs:comment "" ;
+                    rdfs:domain hero:AdverseReaction ;
+                    rdfs:range vocab:AdverseReactionStatus .
+
+hero:hasAdverseReactionVerificationStatus rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Adverse Reaction Verification Status" ;
+                    rdfs:comment "" ;
+                    rdfs:domain hero:AdverseReaction ;
+                    rdfs:range vocab:AdverseReactionVerification .
+
+hero:AdverseReactionEvent rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+                   rdfs:label "Adverse Reaction Event" .
+
+hero:hasAdverseReactionEvent rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has an Adverse Reaction Event" ;
+                    rdfs:comment "" ;
+                    rdfs:domain hero:AdverseReaction ;
+                    rdfs:range hero:AdverseReactionEvent .
+
+hero:Manifestation rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+                   rdfs:label "Manifestation" ;
+                   rdfs:comment "Manifestation TYPE defined by CLINICAL TERMINOLOGY" .
+
+hero:hasAdverseReactionManifestation rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Adverse Reaction Manifestation" ;
+                    rdfs:comment "Symptom or sign observed or associated with the reaction" ;
+                    rdfs:domain hero:AdverseReactionEvent ;
+                    rdfs:range hero:Manifestation .
+
+hero:dateOfAdverseReactionEventOnsetDate rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Date of Adverse Reaction Event Onset" ;
+                    rdfs:comment "" ;
+                    rdfs:domain hero:AdverseReactionEvent ;
+                    rdfs:range xsd:date .     
+
+hero:commentOnAdverseReactionComment rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Adverse Reaction" ;
+                    rdfs:comment "Additiononal narrative about the adverse reaction risk" ;
+                    rdfs:domain hero:AdverseReaction ;
+                    rdfs:range rdf:langString .              
+
+
+
+### CLINCAL DIAGNOSIS
+
+
+hero:ClinicalDiagnosis rdf:type owl:Class ;
+               rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Clinical Diagnosis/Problem" ;
+               rdfs:comment "" .
+
+hero:Diagnosis rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Diagnosis/Problem" ;
+               rdfs:comment "Diagnosis/Problem TYPE defined by CLINICAL TERMINOLOGY" .
+
+hero:hasDiagnosis rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Diagnosis" ;
+                    rdfs:comment "Identification of the Diagnosis/Problem" ;
+                    rdfs:domain hero:ClinicalDiagnosis ;
+                    rdfs:range hero:Diagnosis .
+
+hero:BodySite rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Body Site/Laterality" ;
+                rdfs:comment "Bodysite TYPE defined by CLINICAL TERMINOLOGY" .
+
+
+hero:hasDiagnosisBodySite rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Procedure Body Site" ;
+                    rdfs:comment "The anatomical location or body structure where the procedure was performed" ;
+                    rdfs:domain hero:Diagnosis ;
+                    rdfs:range hero:BodySite ;
+                    owl:equivalentProperty snomed:363698007 .
+
+
+hero:hasDiagnosisStatus rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Diagnosis Status" ;
+                    rdfs:comment "" ;
+                    rdfs:domain hero:ClinicalDiagnosis ;
+                    rdfs:range vocab:DiagnosisStatus .
+
+
+hero:dateDiagnosisRecognised rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Date Diagnosis Recognised" ;
+                    rdfs:comment "" ;
+                    rdfs:domain hero:ClinicalDiagnosis ;
+                    rdfs:range xsd:dateTime .         
+
+hero:commentOnDiagnosis rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Diagnosis" ;
+                    rdfs:comment "Additional narrative about the Diagnosis" ;
+                    rdfs:domain hero:ClinicalDiagnosis ;
+                    rdfs:range rdf:PlainLiteral .   
+
+
+### CLINICAL PROCEDURE
+
+hero:ClinicalProcedure rdf:type owl:Class ;
+               rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Clinical Procedure" ;
+               rdfs:comment "A clinical procedure is an intentional intervention to diagnose, treat or manage a health condition, often involving invasive or potentialy harmful techniques requiring skin or mucosal penetration or tissue manipulation" .
+
+hero:Procedure rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Procedure" ;
+                rdfs:comment "Procedure TYPE defined by CLINICAL TERMINOLOGY" .
+
+hero:hasProcedure rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Procedure" ;
+                    rdfs:comment "Identification of the Procedure" ;
+                    rdfs:domain hero:ClinicalProcedure ;
+                    rdfs:range hero:Procedure .
+
+hero:hasProcedureBodySite rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Procedure Body Site" ;
+                    rdfs:comment "The anatomical location or body structure where the procedure was performed" ;
+                    rdfs:domain hero:Procedure ;
+                    rdfs:range hero:BodySite ;
+                    owl:equivalentProperty snomed:405813007 .
+
+hero:Indication rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Clincial Indication" ;
+               rdfs:comment "Clincial Indication TYPE defined by CLINICAL TERMINOLOGY" .
+
+hero:hasClinicalIndication rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Clinical Indication" ;
+                    rdfs:comment "The clinical symptom, sign or diagnosis that necessitates the procedure" ;
+                    rdfs:domain hero:ClinicalProcedure ;
+                    rdfs:range hero:Indication .
+
+
+hero:dateProcedureFinalised rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Date Procedure Finalised" ;
+                    rdfs:comment "Date when the Procedure all completed" ;
+                    rdfs:domain hero:ClinicalProcedure ;
+                    rdfs:range xsd:date .         
+
+hero:commentOnProcedure rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Procedure" ;
+                    rdfs:comment "Additional narrative about the Procedure" ;
+                    rdfs:domain hero:ClinicalProcedure ;
+                    rdfs:range rdf:PlainLiteral .   
+
+##### VACCINATION 
+
+
+hero:VaccinationAdminstration rdf:type owl:Class ;
+                rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Vaccination Administration" ;
+               rdfs:comment "Intentional introduction of a substance into the body to stimulate the body’s immune response against a disease" .
+
+hero:Vaccination rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Vaccination" ;
+                rdfs:comment "Vaccination TYPE defined by CLINICAL TERMINOLOGY" .
+
+hero:hasVacciantion rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Vaccination" ;
+                    rdfs:comment "Identification of the Vaccination" ;
+                    rdfs:domain hero:VaccinationAdminstration ;
+                    rdfs:range hero:Vaccination .
+
+
+hero:VaccinationEvent rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Vaccination Event" .
+
+hero:hasVaccinationEvent rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Vaccination Event" ;
+                    rdfs:domain hero:VaccinationAdminstration ;
+                    rdfs:range hero:VaccinationEvent .
+
+hero:sequenceOfVaccination rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Sequence Series of Vaccination" ;
+                    rdfs:domain hero:VaccinationEvent ;
+                    rdfs:range xsd:string .       
+
+hero:dateTimeOfVaccination rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Datetime of Vaccination" ;
+                    rdfs:domain hero:VaccinationEvent ;
+                    rdfs:range xsd:dateTime .         
+
+hero:hasVaccinationBatchIdentifier rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Vaccination Batch Identifier" ;
+                    rdfs:domain hero:VaccinationEvent ;
+                    rdfs:range rdfs:Resource .   
+
+hero:hasVaccinationSerialIdentifier rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Vaccination Serial Identifier" ;
+                    rdfs:domain hero:VaccinationEvent ;
+                    rdfs:range rdfs:Resource .   
+
+
+hero:commentOnVaccination rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Vaccination" ;
+                    rdfs:comment "Additional narrative about the Vaccination" ;
+                    rdfs:domain hero:VaccinationAdminstration ;
+                    rdfs:range rdf:PlainLiteral .   
+
+
+
+#### SMOKING 
+
+
+hero:SmokingSummary rdf:type owl:Class ;
+               rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Smoking Summary" ;
+               rdfs:comment "Summary information about an individual’s pattern of smoking tobacco and tobacco-containing products" .
+
+hero:hasSmokingStatus rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Overall Smoking Status" ;
+                    rdfs:domain hero:SmokingSummary ;
+                    rdfs:range vocab:SmokingStatus .
+
+hero:SmokingActivity rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+                   rdfs:label "Smoking Activity" .
+
+hero:hasSmokingActivity rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has a Smoking Activity" ;
+                    rdfs:domain hero:SmokingSummary ;
+                    rdfs:range hero:SmokingActivity .
+
+hero:hasSmokingVariety rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Smoking Variety Type" ;
+                    rdfs:domain hero:SmokingActivity ;
+                    rdfs:range vocab:SmokingVariety . 
+
+hero:hasSmokingActivityStatus rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Smoking Activity Status" ;
+                    rdfs:domain hero:SmokingActivity ;
+                    rdfs:range vocab:SmokingStatus .
+
+
+hero:SmokingActivityEpisode rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Smoking Activity Episode" .
+
+hero:hasSmokingActivityEpisode rdf:type owl:ObjectProperty ;
+                    rdfs:domain hero:SmokingActivity ;
+                    rdfs:range hero:SmokingActivityEpisode ;
+                    rdfs:label "Has Smoking Activty Episode" .
+
+hero:dateSmokingActivityEpisodeStarted rdf:type owl:DatatypeProperty ;
+                      rdfs:domain hero:SmokingActivityEpisode ;
+                      rdfs:range xsd:date ;
+                      rdfs:label "Date Smoking Activity Episode Started" ;
+                      skos:exactMatch oehr:openEHR-EHR-EVALUATION.tobacco_smoking_summary.v1:at0013 .
+
+hero:dateSmokingActivityEpisodeEnded rdf:type owl:DatatypeProperty ;
+                      rdfs:domain hero:SmokingActivityEpisode ;
+                      rdfs:range xsd:date ;
+                      rdfs:label "Date Smoking Activity Episode Ended" ;
+                      skos:exactMatch oehr:openEHR-EHR-EVALUATION.tobacco_smoking_summary.v1:at0014 .
+                      
+hero:typicalUnitsSmokingActivityEpisode rdf:type owl:DatatypeProperty ;
+                      rdfs:domain hero:SmokingActivityEpisode ;
+                      rdfs:range xsd:string ;
+                      rdfs:label "Typical Units use for Smoking Actvity Episode" .
+
+hero:typicalMassSmokingActivityEpisode rdf:type owl:DatatypeProperty ;
+                      rdfs:domain hero:SmokingActivityEpisode ;
+                      rdfs:range xsd:string ;
+                      rdfs:label "Typcial Mass use for Smoking Actvity Episode" .
+
+
+
+
+####  MEASUREMENTS
+
+
+
+hero:ObservationMeasurement rdf:type owl:Class ;
+               rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Observation Measurement" ;
+               rdfs:comment "Common anthropometric measurements and critical physiological parameters" .
+
+hero:hasMeasurementInterpretation rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Clinical Interpretation" ;
+                    rdfs:comment "Description that represents the clinical meaning and significance of the measurement" ;
+                    rdfs:comment "Clinical Interpretation defined by CLINICAL TERMINOLOGY" ;           
+                    rdfs:domain hero:Measurement ;
+                    rdfs:range rdfs:Resource ;
+                    owl:equivalentProperty snomed:243814003 .
+
+hero:commentOnMeasurement rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Measurement" ;
+                    rdfs:comment "Additional narrative about the Measurement" ;
+                    rdfs:domain hero:Measurement ;
+                    rdfs:range rdf:PlainLiteral .   
+
+hero:hasMeasurementPosition rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Position" ;
+                    rdfs:comment "Clinical Position defined by CLINICAL TERMINOLOGY" ;           
+                    rdfs:domain hero:Measurement ;
+                    rdfs:range rdfs:Resource .
+
+
+hero:hasMeasurementMethod rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Method" ;
+                    rdfs:comment "Clinical Method defined by CLINICAL TERMINOLOGY" ;          
+                    rdfs:domain hero:Measurement ;
+                    rdfs:range rdfs:Resource .
+
+
+hero:hasMeasurementBodySite rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Body Site" ;
+                    rdfs:comment "The anatomical location or body structure where the Measurement was performed" ;
+                    rdfs:domain hero:Measurement ;
+                    rdfs:range hero:BodySite ;
+                    owl:equivalentProperty snomed:363698007 .
+
+
+hero:MeasurementValue rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Measurement Value" ;
+               rdfs:comment "Measurement Value TYPE defined by CLINICAL TERMINOLOGY" .            
+
+hero:hasMeasurement rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Vale" ;
+                    rdfs:domain hero:Measurement ;
+                    rdfs:range hero:MeasurementValue .
+
+hero:hasMeasurementValueUnit rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Value Units" ;
+                    rdfs:comment "Measurement Unit defined by (SKOS) TERMINOLOGY" ;            
+                    rdfs:domain hero:MeasurementValue ;
+                    rdfs:range rdfs:Resource .
+
+hero:hasMeasurementValueQuantity rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Value Quantity" ;
+                    rdfs:comment "Measurement Quantity defined by (SKOS) TERMINOLOGY" ;           
+                    rdfs:domain hero:MeasurementValue ;
+                    rdfs:range rdfs:Resource .
+
+hero:hasMeasurementValueComparator rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Measurement Value Comparator" ;
+                    rdfs:comment "Measurement Value Comparator defined by (SKOS) TERMINOLOGY" ;           
+                    rdfs:domain hero:MeasurementValue ;
+                    rdfs:range rdfs:Resource .
+
+hero:atomicValueOfMeasurementValue rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Atomic Value of Measurement" ;
+                    rdfs:comment "Value must be typed with XSD datatypes" ;
+                    rdfs:domain hero:MeasurementValue ;
+                    rdfs:range rdfs:Datatype .
+
+hero:atomicHighValueOfMeasurementValue rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Atomic High Value of Measurement" ;
+                    rdfs:comment "Value must be typed with XSD datatypes" ;   
+                    rdfs:domain hero:MeasurementValue ;
+                    rdfs:range rdfs:Datatype .
+
+hero:atomicLowValueOfMeasurementValue rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Atomic Low Value of Measurement" ;
+                    rdfs:comment "Value must be typed with XSD datatypes" ;    
+                    rdfs:domain hero:MeasurementValue ;
+                    rdfs:range rdfs:Datatype .
+
+
+### LAB RESULT 
+
+hero:LaboratoryResult rdf:type owl:Class ;
+             rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Laboratory Result" ;
+               rdfs:comment "The result, including findings and the laboratory's interpretation, of an investigation performed on specimens collected from an individual or related to that individual" .
+
+
+hero:LaboratoryTest rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Laboratory Test" ;
+               rdfs:comment "Name of the laboratory investigation performed" ;
+               rdfs:comment "Laboratory Test TYPE defined by CLINICAL TERMINOLOGY" .
+           
+
+hero:hasLaboratoryTest rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Laboratory Test" ;
+                    rdfs:comment "Identification of the Laboratory Test" ;
+                    rdfs:domain hero:LaboratoryResult ;
+                    rdfs:range hero:LaboratoryTest .
+
+hero:LaboratoryTestResult rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Laboratory Test Result" ;
+               rdfs:comment "The laboratory analyte test result" .
+
+hero:hasLaboratoryTestResult rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Laboratory Test Result" ;
+                    rdfs:domain hero:LaboratoryResult ;
+                    rdfs:range hero:LaboratoryTestResult .
+
+hero:hasLaboratoryTestResultAnalyte rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Laboratory Test Result Analyte" ;
+                    rdfs:domain hero:LaboratoryTestResult ;
+                    rdfs:range hero:Measurement .
+
+
+hero:commentOnLaboratoryResult rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Laboratory Result" ;
+                    rdfs:comment "Additional narrative about the Laboratory Result" ;
+                    rdfs:domain hero:VaccinationAdminstration ;
+                    rdfs:range rdf:PlainLiteral .   
+
+
+
+### MEDICATION USE  
+
+
+hero:MedicationUse rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalInteraction ;
+               rdfs:label "Medication use" ;
+               rdfs:comment "An assertion about the current use of a single medication" .
+
+hero:hasMedicationIndication rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Indication" ;
+                    rdfs:comment "The clinical symptom, sign or diagnosis that necessitates medication use" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range hero:Indication .
+
+hero:lastDateMedicationAdministration rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Datetime of last Medication Administration" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range xsd:dateTime .    
+
+hero:onsetDateMedication rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Date of onset of Medication Use" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range xsd:date .    
+
+hero:endpointDateMedicationUse rdf:type owl:DatatypeProperty ;
+                    rdfs:label "End date for the use of the medication" ;
+                    rdfs:comment "The intended absolute end date for the use of the medication" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range xsd:date .    
+
+hero:commentOnMedication rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Comment on Medication" ;
+                    rdfs:comment "Additional narrative about the Medication" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range rdf:PlainLiteral .   
+
+hero:hasMedicationAdminRoute rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Administration Route" ;
+                    rdfs:comment "The route by which the medication is administered into the body" ;
+                    rdfs:comment "Medication Form defined by (SKOS) TERMINOLOGY" ;
+                    rdfs:domain hero:Medication ;
+                    rdfs:range rdfs:Resource .
+
+hero:Medication rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Medication" ;
+               rdfs:comment "Medication TYPE defined by MEDICINES TERMINOLOGY" .
+
+hero:hasMedication rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication" ;
+                    rdfs:comment "Identification of the Medication" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range hero:Medication .
+
+hero:hasMedicationForm rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Form" ;
+                    rdfs:comment "The physical presentation or formulation of the medication" ;
+                    rdfs:comment "Medication Form defined by (SKOS) TERMINOLOGY" ;
+                    rdfs:domain hero:Medication ;
+                    rdfs:range rdfs:Resource .
+
+hero:hasMedicationStrength rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Strength" ;
+                    rdfs:comment "The amount of the acWve ingredient in the medicaWon" ;
+                    rdfs:domain hero:Medication ;
+                    rdfs:range hero:MeasurementValue .
+
+
+hero:MedicationDosageDirection rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Medication Dosage Direction" ;
+               rdfs:comment "Ordered sequence of dosage directions" .
+
+hero:hasMedicationDosageDirection rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Dosage Direction" ;
+                    rdfs:comment "The ordered sequence of dosage directions" ;
+                    rdfs:domain hero:MedicationUse ;
+                    rdfs:range hero:MedicationDosageDirection .
+
+hero:endpointDateMedicationDosageDirection rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Endpoint Date of Medication Dosage Direction" ;
+                    rdfs:comment "The intended absolute end date for the use of the medication dosage direction" ;
+                    rdfs:domain hero:MedicationDosageDirection ;
+                    rdfs:range xsd:date .  
+
+hero:MedicationDosage rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Medication Dosage" .
+
+hero:hasMedicationDosage rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Dosage" ;
+                    rdfs:domain hero:MedicationDosageDirection ;
+                    rdfs:range hero:MedicationDosage .
+
+hero:hasMedicationDosageAmount rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Dosage Amount" ;
+                    rdfs:domain hero:MedicationDosage ;
+                    rdfs:range hero:MeasurementValue .
+
+hero:MedicationDosageTiming rdf:type owl:Class ;
+                  rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "Medication Dosage Timing" .
+
+hero:hasMedicationDosageTiming rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Medication Dosage Timing" ;
+                    rdfs:domain hero:MedicationDosage ;
+                    rdfs:range hero:MedicationDosageTiming .
+
+hero:descriptionOfMedicationDosageTiming rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Description Of Medication Dosage Timing" ;
+                    rdfs:domain hero:MedicationDosageTiming ;
+                    rdfs:range rdf:PlainLiteral .   
+
+### ENCOUNTER
+
+hero:Encounter rdf:type owl:Class ;
+               rdfs:label "Encounter" ;
+               rdfs:comment "Information about the clinical context for a single, discrete clinical consultation or contact with a healthcare provider" .
+
+hero:EncounterReason rdf:type owl:Class ;
+           rdfs:subClassOf hero:ClinicalArtefact ;
+               rdfs:label "EncounterReason" ;
+               rdfs:comment "Encounter Reason TYPE defined by MEDICINES TERMINOLOGY" .
+
+hero:hasEncounterReason rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Encounter Reason" ;
+                    rdfs:comment "The reason for initiating a healthcare encounter or contact by an individual, as recorded by the clinician during or after the encounter" ;
+                    rdfs:domain hero:Encounter ;
+                    rdfs:range hero:EncounterReason .
+
+hero:hasEncounterModality rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Encounter Modality" ;
+                    rdfs:comment "The method used to conduct the encounter" ;        
+                    rdfs:comment "Encounter Modality defined by (SKOS) TERMINOLOGY" ;       
+                    rdfs:domain hero:Encounter ;
+                    rdfs:range rdfs:Resource .
+
+hero:hasEncounterInteraction rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Encounter Interaction" ;
+                    rdfs:comment "What was the clinical interaction undertaken during the encounter" ;       
+                    rdfs:domain hero:Encounter ;
+                    rdfs:range hero:ClinicalInteraction .
+
+
+hero:hasClincialProvenance rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Clincial Provenance" ;
+                    rdfs:comment "What was the clinical activity undertaken during the encounter" ;       
+                    rdfs:domain hero:Encounter ;
+                    rdfs:range hero:ClincialProvenance .
+
+#### CLINICAL PROVENANCE 
+
+hero:ClincialProvenance rdf:type owl:Class ;
+               rdfs:label "Clincial Provenance" ;
+               rdfs:comment "Details (who, when, where) about the clinical interaction" .
+
+
+hero:hasSubjectOfCare rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Subject Of Care" ;
+                    rdfs:comment "The Subject of Care (patient)  for this interaction." ;           
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range hero:Patient .
+
+hero:hasInformationProvider rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Information Provider" ;
+                    rdfs:comment "Party who provided the information for this interaction." ;           
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range hero:Party .
+
+hero:hasParticipant rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Participant" ;
+                    rdfs:comment "Identification of other Parties involved for this interaction." ;           
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range hero:Party .
+
+hero:hasWorkflow rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Workflow Identifier" ;
+                    rdfs:comment "An identifier of external workflow / process tracking data for this interaction." ;           
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range rdfs:Resource .
+
+hero:hasGuideline rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Guideline Identifier" ;
+                    rdfs:comment "An identifier of related external guideline or care pathway for this interaction." ;           
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range rdfs:Resource .
+
+hero:hasLocation rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Location" ;
+                    rdfs:comment "Location for this interaction." ;           
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range hero:Location .
+
+hero:startDateTimeInteraction rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Start Datetime of the interaction" ;
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range xsd:dateTime .  
+
+hero:endDateTimeInteraction rdf:type owl:DatatypeProperty ;
+                    rdfs:label "End Datetime of the interaction" ;
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range xsd:dateTime .  
+
+hero:durationInteraction rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Duration of the interaction" ;
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range xsd:duration .  
+
+
+hero:hasEventInteraction rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Event Interaction" ;
+                    rdfs:comment "A specific event for this interaction." ;    
+                    rdfs:comment "Event defined by (SKOS) TERMINOLOGY" ;              
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range rdfs:Resource .
+
+hero:eventDateTimeInteraction rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Event Datetime of the interaction" ;
+                    rdfs:domain hero:ClincialProvenance ;
+                    rdfs:range xsd:dateTime .  
+
+#### LOCATION 
+
+hero:Location rdf:type owl:Class ;
+                  rdfs:label "Location" ;
+                  rdfs:comment "Location TYPE defined by (SKOS) Vocabulary" .          
+
+hero:namedLocation rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Named Location" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string . 
+
+hero:streetAddress rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Street Address" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string .  
+
+hero:poboxAddress rdf:type owl:DatatypeProperty ;
+                    rdfs:label "PO Box Address" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string .  
+
+hero:locality rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Locality (City/Town)" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string .  
+
+hero:jurisdiction rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Juristidction (State/Region)" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string .  
+
+hero:postalCode rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Postal Code" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string .  
+
+hero:country rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Country" ;
+                    rdfs:domain hero:Location ;
+                    rdfs:range xsd:string .  
+
+
+
+### PARTIES
+
+hero:Party rdf:type owl:Class ;
+                  rdfs:label "Party" .
+
+hero:hasAddress rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Address" ;         
+                    rdfs:domain hero:Party ;
+                    rdfs:range hero:Location . 
+
+hero:phoneContact rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Phone Contact" ;
+                    rdfs:domain hero:Party ;
+                    rdfs:range xsd:string .  
+
+hero:emailContact rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Email Contact" ;
+                    rdfs:domain hero:Party ;
+                    rdfs:range xsd:string .  
+
+
+hero:Person rdf:type owl:Class ;
+            rdfs:label "Person" ;
+            rdfs:subClassOf hero:Party .
+
+hero:givenName rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Given Name" ;
+                    rdfs:domain hero:Person ;
+                    rdfs:range xsd:string .  
+
+hero:familyName rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Family Name" ;
+                    rdfs:domain hero:Person ;
+                    rdfs:range xsd:string .  
+
+hero:dateOfBirth rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Date of Birth" ;
+                    rdfs:domain hero:Person ;
+                    rdfs:range xsd:date .  
+
+hero:Patient rdf:type owl:Class ;
+             rdfs:subClassOf hero:Person ;
+             rdfs:label "Patient" .
+
+hero:hasSex  rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has (Birth) Sex" ; 
+                    rdfs:comment "Defined by (SKOS) TERMINOLOGY" ;                   
+                    rdfs:domain hero:Patient ;
+                    rdfs:range rdfs:Resource . 
+
+hero:hasGender  rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Gender" ; 
+                    rdfs:comment "Specialty defined by (SKOS) TERMINOLOGY" ;                   
+                    rdfs:domain hero:Patient ;
+                    rdfs:range rdfs:Resource . 
+
+hero:pronoun rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Pronoun(s)" ;
+                    rdfs:domain hero:Patient ;
+                    rdfs:range rdf:PlainLiteral .  
+
+
+hero:dateOfDeath rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Date of Death" ;
+                    rdfs:domain hero:Patient ;
+                    rdfs:range xsd:date .  
+
+
+hero:Practitioner rdf:type owl:Class ;
+                  rdfs:subClassOf hero:Person ;
+                  rdfs:comment "Healthcare Practitioner" ;
+                  rdfs:label "Practitioner" .
+
+hero:hasQualification rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Pactitioner Qualification" ;         
+                    rdfs:domain hero:Practitioner ;
+                    rdfs:range rdfs:Resource . 
+
+
+hero:Organisation rdf:type owl:Class ;
+                  rdfs:label "Organisation" ;
+                  rdfs:subClassOf hero:Party .
+
+hero:organisationName rdf:type owl:DatatypeProperty ;
+                    rdfs:label "Organisation Name" ;
+                    rdfs:domain hero:Organisation ;
+                    rdfs:range xsd:string .  
+
+hero:Provider rdf:type owl:Class ;
+              rdfs:subClassOf hero:Organisation ;
+              rdfs:comment "Healthcare Provider" ;
+              rdfs:label "Provider" .
+
+hero:hasServiceSpecialty  rdf:type owl:ObjectProperty ;
+                    rdfs:label "Has Provider Specialty" ; 
+                    rdfs:comment "Specialty defined by (SKOS) TERMINOLOGY" ;                   
+                    rdfs:domain hero:Provider ;
+                    rdfs:range rdfs:Resource . 
